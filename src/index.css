@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased;
+}
+
+/* Typography utilities */
+.display-tight {
+  letter-spacing: -0.02em;
+}
+
+/* Gradient text - Obsidian Purple */
+.gradient-text-obsidian {
+  @apply bg-clip-text text-transparent;
+  background-image: linear-gradient(135deg, #A855F7 0%, #7C3AED 100%);
+}
+
+/* Subtle patterns */
+.dot-pattern {
+  background-image: radial-gradient(circle, #e5e5e5 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.grid-pattern {
+  background-image:
+    linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Graph visualization effect */
+.graph-bg {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(168, 85, 247, 0.08) 0%, transparent 25%),
+    radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.06) 0%, transparent 30%),
+    radial-gradient(circle at 50% 50%, rgba(147, 51, 234, 0.04) 0%, transparent 50%);
+}
+
+/* Obsidian node glow */
+.node-glow {
+  box-shadow:
+    0 0 20px rgba(168, 85, 247, 0.3),
+    0 0 40px rgba(168, 85, 247, 0.1);
+}
+
+/* Section transitions */
+.section-fade {
+  @apply transition-all duration-700;
+}
+
+.section-fade.visible {
+  @apply opacity-100 translate-y-0;
+}
+
+.section-fade.hidden {
+  @apply opacity-0 translate-y-8;
+}
+
+/* Button hover effects */
+.btn-primary {
+  @apply relative overflow-hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  @apply absolute inset-0 bg-white opacity-0 transition-opacity duration-300;
+}
+
+.btn-primary:hover::before {
+  @apply opacity-10;
+}
+
+/* Card hover */
+.card-hover {
+  @apply transition-all duration-300;
+}
+
+.card-hover:hover {
+  @apply -translate-y-1;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* Stagger animation helper */
+.stagger > * {
+  @apply opacity-0;
+  animation: slideUp 0.6s ease-out forwards;
+}
+
+.stagger > *:nth-child(1) { animation-delay: 0ms; }
+.stagger > *:nth-child(2) { animation-delay: 100ms; }
+.stagger > *:nth-child(3) { animation-delay: 200ms; }
+.stagger > *:nth-child(4) { animation-delay: 300ms; }
+.stagger > *:nth-child(5) { animation-delay: 400ms; }
+.stagger > *:nth-child(6) { animation-delay: 500ms; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-lendaria-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-lendaria-gray-400 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-lendaria-gray-500;
+}
+
+/* Focus states */
+input:focus, button:focus {
+  @apply outline-none ring-2 ring-obsidian-500 ring-offset-2;
+}
+
+/* Selection */
+::selection {
+  @apply bg-obsidian-200 text-obsidian-900;
+}
