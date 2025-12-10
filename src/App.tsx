@@ -14,7 +14,6 @@ import {
   MessageCircle,
   Quote,
   X,
-  Menu,
   Download,
   PenTool,
   Briefcase,
@@ -193,7 +192,6 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 // ════════════════════════════════════════════════════════════════════════════
 
 function App() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [heroStage, setHeroStage] = useState(0);
 
   // Hero reveal sequence - 4 perguntas que aparecem e somem + headline
@@ -222,16 +220,16 @@ function App() {
   return (
     <div className="min-h-screen font-sans">
       {/* ════════════════════════════════════════════════════════════
-          HEADER
+          HEADER - Hidden on mobile, visible on desktop
           ════════════════════════════════════════════════════════════ */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#E8E8E8]">
+      <header className="hidden md:block fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-[#E8E8E8]">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <DiamondLogo className="w-8 h-8" fill="#000000" />
-            <span className="font-semibold text-black hidden sm:block">Academia Lendár[IA]</span>
+            <span className="font-semibold text-black">Academia Lendár[IA]</span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="flex items-center gap-8">
             <button onClick={() => scrollToSection('problema')} className="text-[#484848] hover:text-black transition-colors text-sm">O Problema</button>
             <button onClick={() => scrollToSection('solucao')} className="text-[#484848] hover:text-black transition-colors text-sm">A Solução</button>
             <button onClick={() => scrollToSection('modulos')} className="text-[#484848] hover:text-black transition-colors text-sm">Conteúdo</button>
@@ -243,41 +241,13 @@ function App() {
                   Quero Clareza
                 </button>
           </nav>
-
-          <button className="md:hidden" onClick={() => setMobileMenuOpen(true)}>
-            <Menu className="w-6 h-6 text-black" />
-          </button>
         </div>
-
-        {/* Mobile menu */}
-        {mobileMenuOpen && (
-          <div className="fixed inset-0 bg-white z-[9999] flex flex-col">
-            <div className="flex justify-between items-center p-6 border-b border-[#E8E8E8]">
-              <DiamondLogo className="w-8 h-8" fill="#000000" />
-              <button onClick={() => setMobileMenuOpen(false)} aria-label="Fechar menu">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <nav className="flex flex-col gap-6 p-6 flex-1">
-              <button onClick={() => scrollToSection('problema')} className="text-xl font-medium text-left py-2">O Problema</button>
-              <button onClick={() => scrollToSection('solucao')} className="text-xl font-medium text-left py-2">A Solução</button>
-              <button onClick={() => scrollToSection('modulos')} className="text-xl font-medium text-left py-2">Conteúdo</button>
-              <button
-                onClick={handleCheckout}
-                className="bg-[#7C3AED] text-white py-4 rounded-lg text-lg font-semibold mt-auto"
-                aria-label="Ir para checkout"
-              >
-                Quero Clareza
-              </button>
-            </nav>
-          </div>
-        )}
       </header>
 
       {/* ════════════════════════════════════════════════════════════
           HERO - DEDO NA FERIDA - Perguntas que somem (Variante C Style)
           ════════════════════════════════════════════════════════════ */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 pt-32 relative bg-white">
+      <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 pt-16 md:pt-32 relative bg-white">
         {/* Subtle grid - Lendária style */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
 
