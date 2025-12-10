@@ -1294,11 +1294,7 @@ function App() {
               </h4>
               <ul className="space-y-2">
                 <li><a href="https://academialendaria.ai" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Página Inicial</a></li>
-                <li><a href="https://academialendaria.ai/sobre" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Quem Somos</a></li>
-                <li><a href="https://academialendaria.ai/manifesto" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Manifesto®</a></li>
-                <li><a href="https://academialendaria.ai/parcerias" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Parcerias</a></li>
                 <li><a href="https://oalanicolas.news/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">NewsLetter</a></li>
-                <li><a href="https://academialendaria.ai/lives" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Lives Semanais</a></li>
               </ul>
             </div>
 
@@ -1308,12 +1304,9 @@ function App() {
                 Programas
               </h4>
               <ul className="space-y-2">
-                <li><a href="https://lendario.ai/comunidade/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Comunidade Lendár[IA]™</a></li>
+                <li><a href="https://academialendaria.ai/comunidade/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Comunidade Lendár[IA]™</a></li>
                 <li><a href="https://go.academialendaria.ai/gestor/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Certificação Gestor [IA]™</a></li>
                 <li><a href="https://lendario.ai/formacao/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Formação Lendár[IA]™</a></li>
-                <li className="pt-2"><span className="text-[#888] text-xs uppercase tracking-wider">Eventos</span></li>
-                <li><a href="https://academialendaria.ai/hackathon" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Hackathon Lendário™</a></li>
-                <li><a href="https://academialendaria.ai/experiencia" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Experiência Lendár[IA]™</a></li>
               </ul>
             </div>
 
@@ -1323,12 +1316,10 @@ function App() {
                 Ecossistema
               </h4>
               <ul className="space-y-2">
-                <li><a href="https://academialendaria.ai/agencia" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Agência Lendár[IA]™</a></li>
-                <li><a href="https://academialendaria.ai/chat" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Chat Lendário™</a></li>
-                <li><a href="https://academialendaria.ai/agentes" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Super Agentes™</a></li>
-                <li><a href="https://academialendaria.ai/hub" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Hub Lendário™</a></li>
-                <li><a href="https://academialendaria.ai/cast" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Lendário Cast™</a></li>
-                <li><a href="https://academialendaria.ai/store" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Lendário Store™</a></li>
+                <li><a href="https://agencialendaria.ai/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Agência Lendár[IA]™</a></li>
+                <li><a href="https://lendario.ai/chat/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Chat Lendário™</a></li>
+                <li><a href="https://superagentes.ai/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Super Agentes™</a></li>
+                <li><a href="https://hub.lendario.ai/" target="_blank" rel="noopener noreferrer" className="text-sm text-white/80 hover:text-white transition-colors">Hub Lendário™</a></li>
               </ul>
             </div>
 
