@@ -31,6 +31,29 @@ import {
 } from 'lucide-react';
 
 // ════════════════════════════════════════════════════════════════════════════
+// CONSTANTS
+// ════════════════════════════════════════════════════════════════════════════
+
+const CHECKOUT_URL = 'https://checkout.pagtrust.com.br/ckd68e3e83?funnel=fn2d6de421&ra=false';
+
+// Track purchase intent with Meta Pixel
+const trackInitiateCheckout = () => {
+  if (typeof window !== 'undefined' && (window as typeof window & { fbq?: (...args: unknown[]) => void }).fbq) {
+    (window as typeof window & { fbq: (...args: unknown[]) => void }).fbq('track', 'InitiateCheckout', {
+      content_name: 'Dominando o Obsidian',
+      content_category: 'Curso',
+      value: 288.00,
+      currency: 'BRL'
+    });
+  }
+};
+
+const handleCheckout = () => {
+  trackInitiateCheckout();
+  window.open(CHECKOUT_URL, '_blank', 'noopener,noreferrer');
+};
+
+// ════════════════════════════════════════════════════════════════════════════
 // HOOKS
 // ════════════════════════════════════════════════════════════════════════════
 
@@ -191,13 +214,13 @@ function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [heroStage, setHeroStage] = useState(0);
 
-  // Hero reveal sequence - 2 perguntas rápidas + headline
+  // Hero reveal sequence - 4 perguntas que aparecem e somem + headline
   useEffect(() => {
-    const timings = [1500, 2000, 2000];
+    const timings = [2000, 2500, 2500, 2500, 2500];
     let timeout: ReturnType<typeof setTimeout>;
 
     const advance = (stage: number) => {
-      if (stage < 3) {
+      if (stage < 5) {
         timeout = setTimeout(() => {
           setHeroStage(stage + 1);
           advance(stage + 1);
@@ -230,9 +253,13 @@ function App() {
             <button onClick={() => scrollToSection('problema')} className="text-[#484848] hover:text-black transition-colors text-sm">O Problema</button>
             <button onClick={() => scrollToSection('solucao')} className="text-[#484848] hover:text-black transition-colors text-sm">A Solução</button>
             <button onClick={() => scrollToSection('modulos')} className="text-[#484848] hover:text-black transition-colors text-sm">Conteúdo</button>
-            <button onClick={() => scrollToSection('oferta')} className="bg-[#7C3AED] text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-[#6D28D9] transition-colors">
-              Quero Clareza
-            </button>
+            <button
+                  onClick={handleCheckout}
+                  className="bg-[#7C3AED] text-white px-6 py-3 rounded-lg text-sm font-semibold hover:bg-[#6D28D9] transition-colors"
+                  aria-label="Ir para checkout"
+                >
+                  Quero Clareza
+                </button>
           </nav>
 
           <button className="md:hidden" onClick={() => setMobileMenuOpen(true)}>
@@ -253,74 +280,97 @@ function App() {
               <button onClick={() => scrollToSection('problema')} className="text-xl font-medium text-left">O Problema</button>
               <button onClick={() => scrollToSection('solucao')} className="text-xl font-medium text-left">A Solução</button>
               <button onClick={() => scrollToSection('modulos')} className="text-xl font-medium text-left">Conteúdo</button>
-              <button onClick={() => scrollToSection('oferta')} className="bg-[#7C3AED] text-white py-4 rounded-lg text-lg font-semibold mt-4">
-                Quero Clareza
-              </button>
+              <button
+                  onClick={handleCheckout}
+                  className="bg-[#7C3AED] text-white py-4 rounded-lg text-lg font-semibold mt-4"
+                  aria-label="Ir para checkout"
+                >
+                  Quero Clareza
+                </button>
             </nav>
           </div>
         )}
       </header>
 
       {/* ════════════════════════════════════════════════════════════
-          HERO - IDENTIFICAÇÃO EMOCIONAL (Schwartz + Hormozi)
+          HERO - DEDO NA FERIDA - Perguntas que somem (Variante C Style)
           ════════════════════════════════════════════════════════════ */}
-      <section className="min-h-screen flex items-center justify-center px-6 bg-black text-white relative overflow-hidden">
-        {/* Subtle grid */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
-          backgroundSize: '48px 48px'
-        }} />
+      <section className="min-h-screen flex flex-col items-center justify-center px-6 py-24 pt-32 relative bg-white">
+        {/* Subtle grid - Lendária style */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.03)_1px,transparent_1px)] bg-[size:64px_64px]" />
 
-        <div className="relative z-10 max-w-3xl mx-auto text-center">
-
-          {/* Stage 1: Pergunta direta */}
-          <div className={`transition-all duration-1000 ${heroStage >= 1 ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          {/* Perguntas - aparecem uma de cada vez e somem */}
+          <div className={`transition-all duration-1000 ${heroStage >= 1 && heroStage < 2 ? 'opacity-100' : 'opacity-0'}`}>
             {heroStage >= 1 && heroStage < 2 && (
-              <p className="text-2xl md:text-4xl text-white leading-relaxed">
-                Quantas abas você tem abertas agora?
+              <p className="text-2xl md:text-4xl text-gray-700 leading-relaxed">
+                Quantos projetos você começou esse ano?
               </p>
             )}
           </div>
 
-          {/* Stage 2: Segunda pergunta */}
-          <div className={`transition-all duration-1000 ${heroStage >= 2 ? 'opacity-100' : 'opacity-0'}`}>
+          <div className={`transition-all duration-1000 ${heroStage >= 2 && heroStage < 3 ? 'opacity-100' : 'opacity-0'}`}>
             {heroStage >= 2 && heroStage < 3 && (
-              <p className="text-2xl md:text-4xl text-[#888888] leading-relaxed">
-                Quantos cursos você comprou e nunca terminou?
+              <p className="text-2xl md:text-4xl text-gray-600 leading-relaxed">
+                Quantos você terminou?
               </p>
             )}
           </div>
 
-          {/* Stage 3: Headline */}
-          <div className={`transition-all duration-1000 ${heroStage >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            {heroStage >= 3 && (
-              <>
-                <DiamondLogo className="w-16 h-16 mx-auto mb-10 animate-pulse" fill="#FFFFFF" />
+          <div className={`transition-all duration-1000 ${heroStage >= 3 && heroStage < 4 ? 'opacity-100' : 'opacity-0'}`}>
+            {heroStage >= 3 && heroStage < 4 && (
+              <p className="text-2xl md:text-4xl text-gray-500 leading-relaxed">
+                Qual foi a última coisa que você aprendeu?
+              </p>
+            )}
+          </div>
 
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight leading-tight">
-                  92% do seu conhecimento<br />
-                  <span className="text-[#7C3AED]">está inacessível.</span>
+          <div className={`transition-all duration-1000 ${heroStage >= 4 && heroStage < 5 ? 'opacity-100' : 'opacity-0'}`}>
+            {heroStage >= 4 && heroStage < 5 && (
+              <p className="text-2xl md:text-4xl text-black leading-relaxed">
+                Consegue lembrar <span className="font-bold">agora</span>?
+              </p>
+            )}
+          </div>
+
+          {/* Headline - aparece no final */}
+          <div className={`transition-all duration-1000 ${heroStage >= 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            {heroStage >= 5 && (
+              <>
+                <DiamondLogo className="w-16 h-16 mx-auto mb-10" fill="#000" />
+
+                {/* Product naming */}
+                <p className="text-xs text-[#7C3AED] uppercase tracking-[0.2em] mb-4">
+                  Segundo Cérebro com IA
+                </p>
+
+                {/* Main headline - NOVA NARRATIVA */}
+                <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-black leading-tight tracking-tight mb-6">
+                  Hackeie seu cérebro
+                  <br />
+                  <span className="text-[#7C3AED]">com Inteligência Artificial.</span>
                 </h1>
 
-                <p className="text-xl md:text-2xl text-[#888888] mb-12 max-w-2xl mx-auto">
-                  Não porque você esqueceu.<br />
-                  Porque está em <strong className="text-white">formato errado</strong>.
+                <p className="text-xl md:text-2xl text-[#484848] mb-12 max-w-2xl mx-auto">
+                  Você não precisa aprender mais.<br />
+                  <strong className="text-black">Precisa acessar o que já sabe.</strong>
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
                   <button
-                    onClick={() => scrollToSection('oferta')}
-                    className="bg-[#7C3AED] text-white px-8 py-4 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[#6D28D9] transition-colors"
+                    onClick={handleCheckout}
+                    className="group bg-black hover:bg-gray-900 text-white font-semibold text-lg px-10 py-5 rounded-xl transition-all duration-200 inline-flex items-center gap-3"
+                    aria-label="Ir para checkout - Quero Hackear Meu Cérebro"
                   >
-                    Quero Acessar Meu Conhecimento
-                    <ArrowRight className="w-5 h-5" />
+                    Quero Hackear Meu Cérebro
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </button>
                   <button
                     onClick={() => scrollToSection('problema')}
-                    className="border border-[#323232] text-white px-8 py-4 rounded-lg font-medium flex items-center justify-center gap-2 hover:border-[#646464] transition-colors"
+                    className="border border-gray-300 text-black px-8 py-4 rounded-xl font-medium flex items-center justify-center gap-2 hover:border-gray-400 transition-colors"
                   >
                     <Play className="w-5 h-5" />
-                    Entenda por quê
+                    Ver o sistema em ação
                   </button>
                 </div>
 
@@ -329,7 +379,7 @@ function App() {
                   Método usado por Alan Nicolas para gerenciar 10.000+ notas
                 </p>
 
-                <ChevronDown className="w-8 h-8 mx-auto text-[#484848] animate-bounce" />
+                <ChevronDown className="w-8 h-8 mx-auto text-gray-400 animate-bounce" />
               </>
             )}
           </div>
@@ -443,39 +493,96 @@ function App() {
       </Section>
 
       {/* ════════════════════════════════════════════════════════════
-          REFRAME - Não é disciplina, é arquitetura (comprimido)
+          REFRAME - O Espelho da Dor (estilo variante-c)
           ════════════════════════════════════════════════════════════ */}
-      <Section dark>
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Diagnóstico errado - comprimido em visual */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {['Mais disciplina', 'Acordar mais cedo', 'Querer mais'].map((item, i) => (
-              <span key={i} className="text-[#646464] line-through decoration-2 text-lg">
-                {item}
-              </span>
+      <section className="py-24 px-6 bg-black text-white">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-xs text-[#7C3AED] uppercase tracking-[0.3em] mb-8">
+            Isso soa familiar?
+          </p>
+
+          <div className="space-y-6">
+            {[
+              { q: 'Você já leu 50 livros este ano.', a: 'Quantos você consegue resumir agora?' },
+              { q: 'Você salvou 200 links "pra ver depois".', a: 'Quantos você viu?' },
+              { q: 'Você tem 47 abas abertas agora mesmo.', a: 'Cada uma é uma decisão que você não tomou.' },
+            ].map((item, index) => (
+              <div key={index} className="flex items-start gap-4 p-6 bg-white/5 rounded-xl border border-white/10">
+                <X className="w-6 h-6 text-red-400 flex-shrink-0 mt-1" />
+                <div>
+                  <p className="text-xl text-white font-medium">{item.q}</p>
+                  <p className="text-gray-400 mt-1">{item.a}</p>
+                </div>
+              </div>
             ))}
           </div>
 
-          <blockquote className="border-l-4 border-[#7C3AED] pl-8 py-4 text-left">
-            <p className="text-2xl md:text-3xl font-serif italic text-white leading-relaxed">
-              "47 abas abertas não é falta de foco. É sintoma de arquitetura errada."
+          <div className="mt-16 text-center">
+            <p className="text-3xl md:text-4xl text-white font-bold leading-tight">
+              Conhecimento que você não consegue acessar
+              <br />
+              <span className="text-[#7C3AED]">é conhecimento que você não tem.</span>
             </p>
-            <cite className="text-[#888888] text-sm not-italic font-medium mt-6 block">
-              — Alan Nicolas
-            </cite>
-          </blockquote>
-
-          <p className="text-xl text-[#888888] mt-12">
-            Você não precisa de mais força de vontade.<br />
-            Precisa de um <strong className="text-white">sistema que funciona como seu cérebro pensa</strong>.
-          </p>
+          </div>
         </div>
-      </Section>
+      </section>
+
+      {/* ════════════════════════════════════════════════════════════
+          O REFRAME - Sistema > Disciplina (estilo variante-c)
+          ════════════════════════════════════════════════════════════ */}
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left: The false belief */}
+            <div>
+              <p className="text-xs text-red-500 uppercase tracking-[0.2em] mb-4">
+                O que você acha que é o problema
+              </p>
+              <ul className="space-y-3 text-gray-600">
+                {['"Falta de disciplina"', '"Não tenho tempo"', '"Preciso de mais força de vontade"', '"Sou desorganizado por natureza"'].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3">
+                    <span className="text-red-400">✕</span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Right: The truth */}
+            <div className="bg-white p-8 rounded-2xl shadow-lg border-2 border-[#7C3AED]/20">
+              <p className="text-xs text-[#7C3AED] uppercase tracking-[0.2em] mb-4">
+                O problema real
+              </p>
+              <p className="text-2xl text-black font-bold leading-tight">
+                Você não precisa aprender mais.
+              </p>
+              <p className="text-2xl text-[#7C3AED] font-bold mt-2">
+                Precisa acessar o que já sabe.
+              </p>
+              <p className="text-gray-600 mt-4">
+                Você está usando seu cérebro como HD externo, quando deveria usar como processador.
+              </p>
+            </div>
+          </div>
+
+          {/* The statement */}
+          <div className="mt-20 text-center">
+            <p className="text-4xl md:text-6xl font-bold text-black">
+              Sistema <span className="text-[#7C3AED]">&gt;</span> Disciplina
+            </p>
+            <p className="text-xl text-gray-600 mt-6 max-w-2xl mx-auto">
+              Disciplina falha nos dias ruins. Sistema funciona sempre.
+              <br />
+              É como tirar 50kg das costas e colocar numa mochila com rodinhas.
+            </p>
+          </div>
+        </div>
+      </section>
 
       {/* ════════════════════════════════════════════════════════════
           MECANISMO - Pensamento em Rede
           ════════════════════════════════════════════════════════════ */}
-      <Section id="solucao" className="bg-[#F8F8F8]">
+      <Section id="solucao" className="bg-white">
         <div className="text-center mb-16">
           <span className="text-[#646464] text-sm font-medium tracking-widest uppercase mb-4 block">O Mecanismo</span>
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
@@ -493,9 +600,12 @@ function App() {
             loop
             muted
             playsInline
+            preload="metadata"
             className="w-full"
+            aria-label="Demonstração do Obsidian Graph View"
           >
             <source src="/Graficos-Obsidian-1-1-1.mp4" type="video/mp4" />
+            Seu navegador não suporta vídeos HTML5.
           </video>
         </div>
 
@@ -570,46 +680,48 @@ function App() {
       </Section>
 
       {/* ════════════════════════════════════════════════════════════
-          PROVA - Alan Nicolas
+          PROVA - Alan Nicolas (estilo variante-c)
           ════════════════════════════════════════════════════════════ */}
-      <Section dark>
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div>
-            <span className="text-[#646464] text-sm font-medium tracking-widest uppercase mb-4 block">A Prova</span>
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-              10 anos de conhecimento.
-              <br />
-              Acessível em segundos.
-            </h2>
-            <p className="text-[#888888] text-lg mb-6">
-              Em 2021, Alan Nicolas largou tudo. Tinha conquistado basicamente tudo que alguém sonha conquistar. Mas sua cabeça era um caos.
-            </p>
-            <p className="text-[#888888] text-lg mb-6">
-              "Eu tinha lido mais de 100 livros. Feito dezenas de cursos. Salvado milhares de links. Mas quando eu precisava de algo específico... eu não conseguia achar."
-            </p>
-            <p className="text-white text-lg font-medium">
-              Foi quando ele construiu seu Segundo Cérebro no Obsidian.
-            </p>
-          </div>
+      <section className="py-24 px-6 bg-black text-white">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-xs text-[#7C3AED] uppercase tracking-[0.2em] mb-4">
+                Quem criou o método
+              </p>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+                Alan Nicolas
+              </h2>
+              <p className="text-gray-400 text-lg mb-4">
+                Empresário, mentor e criador da Comunidade Lendária. Em 2021, largou tudo mesmo tendo conquistado o que muitos sonham — porque sua mente era um caos.
+              </p>
+              <p className="text-gray-400 text-lg mb-4">
+                "Eu tinha lido mais de 100 livros. Feito dezenas de cursos. Salvado milhares de links. Mas quando eu precisava de algo específico... eu não conseguia achar."
+              </p>
+              <p className="text-white text-lg font-medium">
+                Foi quando ele construiu seu Segundo Cérebro no Obsidian.
+              </p>
+            </div>
 
-          <div className="bg-[#161616] rounded-lg p-8 border border-[#323232]">
-            <div className="space-y-8">
-              <div>
-                <p className="text-[#646464] text-sm font-medium mb-1">Notas no vault</p>
-                <p className="text-5xl font-bold text-white">10.000+</p>
-              </div>
-              <div>
-                <p className="text-[#646464] text-sm font-medium mb-1">Anos de conhecimento</p>
-                <p className="text-5xl font-bold text-white">10+</p>
-              </div>
-              <div>
-                <p className="text-[#646464] text-sm font-medium mb-1">Tempo para encontrar qualquer coisa</p>
-                <p className="text-5xl font-bold text-white">&lt;5s</p>
+            <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
+              <div className="space-y-8">
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Notas no vault</p>
+                  <p className="text-5xl font-bold text-white">10.000+</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Anos de conhecimento</p>
+                  <p className="text-5xl font-bold text-white">10+</p>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-500 mb-1">Tempo para encontrar qualquer coisa</p>
+                  <p className="text-5xl font-bold text-[#7C3AED]">&lt;5s</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* ════════════════════════════════════════════════════════════
           PARA QUEM É - IDENTIFICATION PLAY (Schwartz)
@@ -719,49 +831,56 @@ function App() {
       </Section>
 
       {/* ════════════════════════════════════════════════════════════
-          BÔNUS POR TEMPO LIMITADO
+          BENEFÍCIOS + PROVA SOCIAL (estilo variante-c)
           ════════════════════════════════════════════════════════════ */}
-      <Section dark>
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 bg-[#7C3AED] text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
-            <Gift className="w-4 h-4" />
-            Bônus por Tempo Limitado
+      <section className="py-24 px-6 bg-gray-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-16">
+            <p className="text-xs text-gray-500 uppercase tracking-[0.3em] mb-4">
+              Tudo isso em 30 segundos
+            </p>
+            <h2 className="text-3xl md:text-4xl font-bold text-black">
+              Você começa com TUDO configurado
+            </h2>
+            <p className="text-lg text-gray-600 mt-4">
+              Basta baixar o Kit Starter, abrir no sistema e pronto.
+            </p>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-            3 bônus exclusivos
-          </h2>
-        </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="bg-[#161616] rounded-lg p-6 border border-[#323232]">
-            <div className="w-12 h-12 bg-[#7C3AED] rounded-lg flex items-center justify-center mb-4">
-              <Download className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="font-bold text-xl text-white mb-2">Kit Starter Obsidian</h3>
-            <p className="text-[#888888]">
-              Segundo Cérebro pronto com anotações, resumos de livro e plugins já configurados. Baixar e começar.
-            </p>
+          {/* Benefits grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { icon: Zap, title: 'Dobre sua produtividade', desc: 'Consulte desde sua agenda até seus projetos mais ambiciosos.' },
+              { icon: Search, title: 'Clone seu cérebro', desc: 'Com IA integrada, seu Segundo Cérebro se torna uma versão sua melhorada.' },
+              { icon: Download, title: 'Cérebros Lendários', desc: 'Faça download de como mentes brilhantes pensam e organizam.' },
+            ].map((item, index) => (
+              <div key={index} className="bg-white p-6 rounded-xl border border-gray-200">
+                <item.icon className="w-8 h-8 text-[#7C3AED] mb-4" />
+                <h3 className="text-lg font-semibold text-black">{item.title}</h3>
+                <p className="text-gray-600 mt-2 text-sm">{item.desc}</p>
+              </div>
+            ))}
           </div>
-          <div className="bg-[#161616] rounded-lg p-6 border border-[#323232]">
-            <div className="w-12 h-12 bg-[#7C3AED] rounded-lg flex items-center justify-center mb-4">
-              <Library className="w-6 h-6 text-white" />
-            </div>
-            <h3 className="font-bold text-xl text-white mb-2">Biblioteca Obsidian</h3>
-            <p className="text-[#888888]">
-              Acesso ao conteúdo publicado por alunos e monitores. Aprenda com a comunidade.
+
+          {/* Testimonial */}
+          <div className="mt-16 p-8 bg-black rounded-2xl text-center">
+            <p className="text-2xl md:text-3xl text-white font-light leading-relaxed italic">
+              "Eu tinha 10 anos de anotações espalhadas. Em um fim de semana, estava tudo conectado.
+              <br />
+              <span className="text-[#7C3AED] font-semibold not-italic">Pela primeira vez, eu conseguia pensar com clareza."</span>
             </p>
-          </div>
-          <div className="bg-[#161616] rounded-lg p-6 border border-[#323232]">
-            <div className="w-12 h-12 bg-[#7C3AED] rounded-lg flex items-center justify-center mb-4">
-              <Sparkles className="w-6 h-6 text-white" />
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#7C3AED] flex items-center justify-center">
+                <span className="text-sm font-bold text-white">AN</span>
+              </div>
+              <div className="text-left">
+                <p className="text-white font-medium">Alan Nicolas</p>
+                <p className="text-sm text-gray-500">10 anos de notas. Agora conectadas.</p>
+              </div>
             </div>
-            <h3 className="font-bold text-xl text-white mb-2">Cérebros Lendários</h3>
-            <p className="text-[#888888]">
-              Download de cérebros de pessoas famosas para ver como organizam seu conhecimento.
-            </p>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* ════════════════════════════════════════════════════════════
           SOLUÇÃO - O Curso
@@ -1022,91 +1141,98 @@ function App() {
       </Section>
 
       {/* ════════════════════════════════════════════════════════════
-          OFERTA - Com Stack de Valor (Hormozi)
+          OFERTA - Estilo variante-c (fundo branco)
           ════════════════════════════════════════════════════════════ */}
-      <Section id="oferta" dark>
-        <div className="text-center mb-12">
-          <span className="text-[#646464] text-sm font-medium tracking-widest uppercase mb-4 block">Investimento</span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-            Quanto vale recuperar 52h por ano?
-          </h2>
-          <p className="text-xl text-[#888888] max-w-2xl mx-auto">
-            Se seu tempo vale R$ 100/hora, são <strong className="text-white">R$ 5.200</strong> em tempo perdido. Por ano.
-          </p>
-        </div>
+      <section id="oferta" className="py-24 px-6 bg-white">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <p className="text-sm text-[#7C3AED] uppercase tracking-[0.2em] mb-4">
+              Seu Segundo Cérebro
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-black">
+              15 minutos de setup.
+              <br />
+              <span className="text-[#7C3AED]">Anos de clareza.</span>
+            </h2>
+            <p className="text-xl text-gray-600 mt-4">
+              Não é curso de ferramenta. É sistema de pensamento.
+            </p>
+          </div>
 
-        <div className="max-w-xl mx-auto">
-          {/* Stack de Valor - Hormozi style */}
-          <div className="bg-[#0a0a0a] rounded-lg p-6 mb-6 border border-[#323232]">
-            <p className="text-sm text-[#646464] uppercase tracking-widest mb-4">O que você recebe:</p>
-            <div className="space-y-3">
-              {[
-                { item: 'Dominando o Obsidian (24 aulas)', value: 'R$ 697' },
-                { item: 'Kit Starter Premium (sistema pronto)', value: 'R$ 497' },
-                { item: 'Biblioteca Lendária (200+ templates)', value: 'R$ 297' },
-                { item: 'Cérebros Lendários (7 vaults)', value: 'R$ 397' },
-                { item: '2 anos de suporte especializado', value: 'R$ 600' }
-              ].map(({ item, value }, i) => (
-                <div key={i} className="flex items-center justify-between">
-                  <span className="text-[#888888]">{item}</span>
-                  <span className="text-[#646464] line-through text-sm">{value}</span>
+          <div className="bg-gray-50 rounded-3xl p-8 md:p-12 border border-gray-200">
+            <div className="grid md:grid-cols-2 gap-12">
+              {/* Left: What's included */}
+              <div>
+                <p className="text-lg font-semibold text-black mb-6">
+                  O que está incluído:
+                </p>
+                <ul className="space-y-4">
+                  {[
+                    'Clareza mental em 7 dias',
+                    'Setup completo em 15 minutos',
+                    'Sistema que dura 10+ anos',
+                    'Vault pronto — copie e comece',
+                    'Cérebros Lendários — veja como experts pensam',
+                    'Garantia incondicional de 7 dias',
+                  ].map((item, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-[#7C3AED] flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Right: Price */}
+              <div className="flex flex-col justify-center items-center text-center">
+                <p className="text-sm text-gray-500 line-through mb-2">R$ 497</p>
+                <p className="text-6xl md:text-7xl font-bold text-black">R$ 288</p>
+                <p className="text-gray-500 mt-2">ou 12x de R$ 28,06</p>
+
+                <button
+                  onClick={handleCheckout}
+                  className="mt-8 w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white font-semibold text-lg px-8 py-5 rounded-xl transition-all duration-200 flex items-center justify-center gap-3"
+                  aria-label="Ir para checkout - Quero Meu Segundo Cérebro"
+                >
+                  Quero Meu Segundo Cérebro
+                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                </button>
+
+                <div className="mt-6 flex items-center gap-2 text-gray-500">
+                  <Shield className="w-4 h-4 text-emerald-500" />
+                  <span className="text-sm">7 dias de garantia incondicional</span>
                 </div>
-              ))}
-              <div className="flex items-center justify-between pt-3 border-t border-[#323232]">
-                <span className="text-white font-semibold">Valor total</span>
-                <span className="text-white line-through">R$ 2.488</span>
+              </div>
+            </div>
+
+            {/* ROI Calculator */}
+            <div className="mt-12 pt-8 border-t border-gray-200">
+              <p className="text-xs text-gray-400 uppercase tracking-wider mb-4 text-center">
+                Conta rápida
+              </p>
+              <div className="grid md:grid-cols-3 gap-4 text-center">
+                <div>
+                  <p className="text-2xl font-bold text-black">30 min/dia</p>
+                  <p className="text-sm text-gray-500">procurando informação</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-black">= R$ 18.000/ano</p>
+                  <p className="text-sm text-gray-500">de tempo perdido</p>
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-[#7C3AED]">R$ 288</p>
+                  <p className="text-sm text-gray-500">para resolver para sempre</p>
+                </div>
               </div>
             </div>
           </div>
-
-          <div className="bg-[#161616] rounded-lg p-8 md:p-10 border border-[#7C3AED]">
-            <div className="text-center mb-8">
-              <DiamondLogo className="w-12 h-12 mx-auto mb-6" fill="#FFFFFF" />
-              <h3 className="text-2xl font-bold text-white mb-2">Dominando o Obsidian</h3>
-              <p className="text-[#888888]">Acesso completo ao sistema</p>
-            </div>
-
-            {/* Price - Reframed */}
-            <div className="text-center mb-8 py-6 border-y border-[#323232]">
-              <p className="text-[#646464] text-sm mb-2">Investimento único</p>
-              <p className="text-5xl font-bold text-white">R$ 288</p>
-              <p className="text-[#888888] text-sm mt-2">ou 12x de R$ 28,06</p>
-              <p className="text-[#7C3AED] text-sm mt-4 font-medium">
-                = R$ 5,50 por hora recuperada no primeiro ano
-              </p>
-            </div>
-
-            {/* CTA */}
-            <a
-              href="#"
-              className="block w-full bg-[#7C3AED] text-white py-4 rounded-lg font-semibold text-center text-lg hover:bg-[#6D28D9] transition-colors mb-4"
-            >
-              Quero Acessar Meu Conhecimento
-            </a>
-
-            {/* Guarantee - Melhorada */}
-            <div className="text-center">
-              <div className="flex items-center justify-center gap-2 text-[#888888] text-sm mb-2">
-                <Shield className="w-4 h-4" />
-                <span>Garantia incondicional de 7 dias</span>
-              </div>
-              <p className="text-xs text-[#646464]">
-                Não gostou? Devolução integral, sem perguntas.
-              </p>
-            </div>
-          </div>
-
-          {/* Urgência sutil */}
-          <p className="text-center text-sm text-[#646464] mt-6">
-            Preço promocional de lançamento. Cada semana sem sistema = mais tempo perdido.
-          </p>
         </div>
-      </Section>
+      </section>
 
       {/* ════════════════════════════════════════════════════════════
           FAQ
           ════════════════════════════════════════════════════════════ */}
-      <Section>
+      <Section id="faq">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
             Perguntas Frequentes
@@ -1146,40 +1272,178 @@ function App() {
       </Section>
 
       {/* ════════════════════════════════════════════════════════════
-          FINAL CTA
+          FINAL CTA (estilo variante-c)
           ════════════════════════════════════════════════════════════ */}
-      <Section dark>
-        <div className="text-center">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-            Seu cérebro merece descanso.
-          </h2>
-          <p className="text-xl text-[#888888] max-w-2xl mx-auto mb-12">
-            Pare de carregar o peso de lembrar tudo. Construa um sistema que faz isso por você.
+      <section className="py-16 px-6 bg-black text-white">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-3xl md:text-4xl font-bold leading-tight">
+            Clareza não é dom.
+            <br />
+            <span className="text-[#7C3AED]">É sistema.</span>
           </p>
 
           <button
-            onClick={() => scrollToSection('oferta')}
-            className="bg-[#7C3AED] text-white px-12 py-5 rounded-lg font-semibold text-lg flex items-center gap-3 mx-auto hover:bg-[#6D28D9] transition-colors"
+            onClick={handleCheckout}
+            className="mt-10 bg-white hover:bg-gray-100 text-black font-semibold text-lg px-12 py-5 rounded-xl transition-all duration-200 inline-flex items-center gap-3"
+            aria-label="Ir para checkout - Começar Agora"
           >
-            Quero Meu Segundo Cérebro
-            <ArrowRight className="w-5 h-5" />
+            Começar Agora
+            <ArrowRight className="w-5 h-5" aria-hidden="true" />
           </button>
+
+          <p className="text-sm text-gray-500 mt-6">
+            Acesso imediato • 7 dias de garantia • Suporte especializado
+          </p>
         </div>
-      </Section>
+      </section>
 
       {/* ════════════════════════════════════════════════════════════
-          FOOTER
+          FOOTER COMPLETO
           ════════════════════════════════════════════════════════════ */}
-      <footer className="py-16 px-6 bg-[#F8F8F8] border-t border-[#E8E8E8]">
+      <footer className="py-16 px-6 bg-gray-50 border-t border-gray-200">
         <div className="max-w-5xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-            <div className="flex items-center gap-4">
-              <DiamondLogo className="w-8 h-8" fill="#888888" />
-              <span className="text-[#646464]">Academia Lendár[IA]</span>
+          {/* Logo */}
+          <div className="flex justify-center mb-12">
+            <InfinityLogo className="w-28 h-auto" fill="#000" aria-label="Academia Lendária" />
+          </div>
+
+          {/* Footer Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            {/* Transparência */}
+            <div className="text-center md:text-left">
+              <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-wider mb-4">
+                Transparência
+              </h4>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="https://academialendaria.ai/termos"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    Termos de uso
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://academialendaria.ai/privacidade"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    Política de privacidade
+                  </a>
+                </li>
+              </ul>
             </div>
-            <InfinityLogo className="w-16 h-8" fill="#D8D8D8" />
-            <p className="text-[#888888] text-sm">
-              Eternizando legados através da IA
+
+            {/* Fale Conosco */}
+            <div className="text-center md:text-left">
+              <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-wider mb-4">
+                Fale Conosco
+              </h4>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="mailto:suporte@vidalendaria.com"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    E-mail
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://api.whatsapp.com/send?phone=5551998444171"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    Whatsapp
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#faq"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    FAQ
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Redes Sociais */}
+            <div className="text-center md:text-left">
+              <h4 className="text-xs font-semibold text-gray-900 uppercase tracking-wider mb-4">
+                Redes Sociais
+              </h4>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="https://www.instagram.com/oalanicolas/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    Instagram
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://twitter.com/oalanicolas"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    Twitter
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.youtube.com/@oalanicolas?sub_confirmation=1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    Youtube
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://open.spotify.com/show/0dq33rWuzeCvw8Ht5CQfoV?si=d1ff45b76c76489d"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    Podcast Vida Lendária
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://t.me/vidalendaria"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-gray-600 hover:text-black transition-colors"
+                  >
+                    Telegram
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Copyright */}
+          <div className="pt-8 border-t border-gray-200 text-center">
+            <p className="text-xs text-gray-400">
+              © {new Date().getFullYear()} Academia Lendár[IA] • Todos os direitos reservados
+            </p>
+            <p className="text-xs text-gray-400 mt-2">
+              CNPJ: 00.000.000/0001-00 • Rua Exemplo, 123 - Porto Alegre/RS
             </p>
           </div>
         </div>
