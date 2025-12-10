@@ -198,7 +198,7 @@ function App() {
 
   // Hero reveal sequence - 4 perguntas que aparecem e somem + headline
   useEffect(() => {
-    const timings = [2000, 2500, 2500, 2500, 2500];
+    const timings = [1500, 2500, 2500, 2500, 2500];
     let timeout: ReturnType<typeof setTimeout>;
 
     const advance = (stage: number) => {
@@ -251,24 +251,24 @@ function App() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="fixed inset-0 bg-white z-50 p-6">
-            <div className="flex justify-between items-center mb-8">
+          <div className="fixed inset-0 bg-white z-[9999] flex flex-col">
+            <div className="flex justify-between items-center p-6 border-b border-[#E8E8E8]">
               <DiamondLogo className="w-8 h-8" fill="#000000" />
-              <button onClick={() => setMobileMenuOpen(false)}>
+              <button onClick={() => setMobileMenuOpen(false)} aria-label="Fechar menu">
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <nav className="flex flex-col gap-6">
-              <button onClick={() => scrollToSection('problema')} className="text-xl font-medium text-left">O Problema</button>
-              <button onClick={() => scrollToSection('solucao')} className="text-xl font-medium text-left">A Solução</button>
-              <button onClick={() => scrollToSection('modulos')} className="text-xl font-medium text-left">Conteúdo</button>
+            <nav className="flex flex-col gap-6 p-6 flex-1">
+              <button onClick={() => scrollToSection('problema')} className="text-xl font-medium text-left py-2">O Problema</button>
+              <button onClick={() => scrollToSection('solucao')} className="text-xl font-medium text-left py-2">A Solução</button>
+              <button onClick={() => scrollToSection('modulos')} className="text-xl font-medium text-left py-2">Conteúdo</button>
               <button
-                  onClick={handleCheckout}
-                  className="bg-[#7C3AED] text-white py-4 rounded-lg text-lg font-semibold mt-4"
-                  aria-label="Ir para checkout"
-                >
-                  Quero Clareza
-                </button>
+                onClick={handleCheckout}
+                className="bg-[#7C3AED] text-white py-4 rounded-lg text-lg font-semibold mt-auto"
+                aria-label="Ir para checkout"
+              >
+                Quero Clareza
+              </button>
             </nav>
           </div>
         )}
