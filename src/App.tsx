@@ -662,50 +662,6 @@ function App() {
       </Section>
 
       {/* ════════════════════════════════════════════════════════════
-          PROVA - Alan Nicolas (estilo variante-c)
-          ════════════════════════════════════════════════════════════ */}
-      <section className="py-24 px-6 bg-black text-white">
-        <div className="max-w-5xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <p className="text-xs text-[#7C3AED] uppercase tracking-[0.2em] mb-4">
-                Quem criou o método
-              </p>
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Alan Nicolas
-              </h2>
-              <p className="text-gray-400 text-lg mb-4">
-                Empresário, mentor e criador da Comunidade Lendária. Em 2021, largou tudo mesmo tendo conquistado o que muitos sonham — porque sua mente era um caos.
-              </p>
-              <p className="text-gray-400 text-lg mb-4">
-                "Eu tinha lido mais de 100 livros. Feito dezenas de cursos. Salvado milhares de links. Mas quando eu precisava de algo específico... eu não conseguia achar."
-              </p>
-              <p className="text-white text-lg font-medium">
-                Foi quando ele construiu seu Segundo Cérebro no Obsidian.
-              </p>
-            </div>
-
-            <div className="bg-gray-900 rounded-2xl p-8 border border-gray-800">
-              <div className="space-y-8">
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Notas no vault</p>
-                  <p className="text-5xl font-bold text-white">10.000+</p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Anos de conhecimento</p>
-                  <p className="text-5xl font-bold text-white">10+</p>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-500 mb-1">Tempo para encontrar qualquer coisa</p>
-                  <p className="text-5xl font-bold text-[#7C3AED]">&lt;5s</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ════════════════════════════════════════════════════════════
           PARA QUEM É - IDENTIFICATION PLAY (Schwartz)
           ════════════════════════════════════════════════════════════ */}
       <Section className="bg-[#F8F8F8]">
