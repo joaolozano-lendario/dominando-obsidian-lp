@@ -1,0 +1,9 @@
+# Robots.txt for Dominando o Obsidian LP
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://go.academialendaria.ai/cerebro/sitemap.xml
+
+# Crawl-delay for polite bots
+Crawl-delay: 1
