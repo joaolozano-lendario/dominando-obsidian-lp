@@ -858,7 +858,7 @@ function App() {
               <div className="w-16 h-16 bg-white rounded-lg flex items-center justify-center mx-auto mb-4 border border-[#E8E8E8]">
                 <FileText className="w-8 h-8 text-black" />
               </div>
-              <p className="font-semibold text-black">2 Anos</p>
+              <p className="font-semibold text-black">1 Ano</p>
               <p className="text-[#646464] text-sm">de acesso</p>
             </div>
             <div className="text-center">
@@ -1165,7 +1165,7 @@ function App() {
           />
           <FAQItem
             question="Por quanto tempo tenho acesso?"
-            answer="Você tem 2 anos de acesso ao curso e todos os materiais. Tempo mais que suficiente para dominar o Obsidian e construir seu Segundo Cérebro."
+            answer="Você tem 1 ano de acesso ao curso e todos os materiais. Tempo mais que suficiente para dominar o Obsidian e construir seu Segundo Cérebro."
           />
           <FAQItem
             question="O que é a garantia de 7 dias?"
